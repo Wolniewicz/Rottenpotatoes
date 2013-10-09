@@ -6,9 +6,14 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
- 
   def index
-    @params = params
+    unless params.has_key?(:ratings) || params.has_key?(:order)
+        @params = session.has_key?(:filters) ? session[:filters] : {:order=>:id}
+        redirect_to movies_order_path(:order => @params[:order], :ratings => @params[:ratings]) if @params.any?
+    else
+        @params = params
+        session[:filters] = @params
+    end
     @movies = Movie.rating_in(params[:ratings]).order_by(params[:order])
     @all_ratings = Movie.all_ratings
   end

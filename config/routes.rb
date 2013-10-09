@@ -14,7 +14,7 @@ Rottenpotatoes::Application.routes.draw do
   #   resources :products
   resources :movies
 
-match 'movies/order_by/:order' => 'movies#index', :as => :movies_order 
+match 'movies/order/:order' => 'movies#index', :as => :movies_order 
 
   # Sample resource route with options:
   #   resources :products do
