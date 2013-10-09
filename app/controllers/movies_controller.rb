@@ -6,18 +6,12 @@ class MoviesController < ApplicationController
     # will render app/views/movies/show.<extension> by default
   end
 
+ 
   def index
-    @order = params[:order]
-    if @order
-        if Movie.column_names.include? @order
-            @movies = Movie.order(@order)
-        else
-            redirect_to movies_path
-        end
-    else
-        @movies = Movie.all
-    end
-   end 
+    @params = params
+    @movies = Movie.rating_in(params[:ratings]).order_by(params[:order])
+    @all_ratings = Movie.all_ratings
+  end
 
   def new
     # default: render 'new' template
